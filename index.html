@@ -254,16 +254,132 @@
       border-color: var(--gold);
       transform: scale(1.35);
     }
+
+    /* ── Timer ───────────────────────────────────────── */
+    #s-timer {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .timer-heading {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: cardRise 1.4s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+    }
+
+    .timer-super {
+      font-size: 0.72rem;
+      letter-spacing: 0.52em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: cardRise 1.2s ease 0.5s both;
+    }
+
+    .timer-grid {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(1.2rem, 3.5vw, 3rem);
+      opacity: 0;
+      animation: cardRise 1.5s cubic-bezier(0.16,1,0.3,1) 0.75s both;
+    }
+
+    .timer-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .timer-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 9vw, 6.5rem);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      min-width: 1.8ch;
+      text-align: center;
+    }
+
+    .timer-sep {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 300;
+      color: rgba(212,175,122,0.18);
+      margin-top: 0.1em;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .timer-unit-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.42em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .timer-sub {
+      margin-top: 3rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: rgba(240,232,216,0.22);
+      font-style: italic;
+      opacity: 0;
+      animation: cardRise 1s ease 1.4s both;
+    }
+
+    @keyframes secPop {
+      0%   { opacity: 0.35; transform: translateY(-5px); }
+      100% { opacity: 1;    transform: translateY(0);    }
+    }
+    .sec-tick { animation: secPop 0.28s ease; }
   </style>
 </head>
 <body>
 
 <canvas id="starCanvas"></canvas>
 
+<!-- ── 0 · Timer ──────────────────────────────────── -->
+<section id="s-timer">
+  <h2 class="timer-heading">Pook since</h2>
+  <div class="timer-grid">
+    <div class="timer-unit">
+      <span class="timer-num" id="t-days">000</span>
+      <span class="timer-unit-label">Tage</span>
+    </div>
+    <span class="timer-sep">·</span>
+    <div class="timer-unit">
+      <span class="timer-num" id="t-hours">00</span>
+      <span class="timer-unit-label">Stunden</span>
+    </div>
+    <span class="timer-sep">·</span>
+    <div class="timer-unit">
+      <span class="timer-num" id="t-mins">00</span>
+      <span class="timer-unit-label">Minuten</span>
+    </div>
+    <span class="timer-sep">·</span>
+    <div class="timer-unit">
+      <span class="timer-num" id="t-secs">00</span>
+      <span class="timer-unit-label">Sekunden</span>
+    </div>
+  </div>
+  <p class="timer-sub">seit dem 1. Dezember 2024</p>
+  <div class="scroll-hint" id="scrollHint">Scroll</div>
+</section>
+
 <!-- ── 1 · Hero ───────────────────────────────────── -->
 <section id="s-hero">
   <div class="card" id="card">
-    <p class="eyebrow">1. Dezember 2024 &middot; Unser Jahrestag</p>
     <h1>Für dich,<br>unter diesen Sternen</h1>
     <p class="intro-text">
       An diesem Abend stand der Himmel genau so —<br>
@@ -271,14 +387,13 @@
       und ich an deiner Seite.
     </p>
   </div>
-  <div class="scroll-hint" id="scrollHint">Scroll</div>
 </section>
 
 <!-- ── 2 · Starmap ───────────────────────────────── -->
 <section id="s-map">
   <div class="map-caption" id="mapCaption">
     <p class="loc">Lemberg, Rheinland-Pfalz &middot; 1. Dez. 2024 · 21:00 Uhr</p>
-    <p class="tagline">Genau dieser Moment gehört uns</p>
+    <p class="tagline">der Himmel über uns</p>
   </div>
 </section>
 
@@ -325,7 +440,8 @@
 
 <!-- ── Dot nav ────────────────────────────────────── -->
 <nav class="dot-nav" id="dotNav">
-  <span class="dot active" data-s="s-hero"></span>
+  <span class="dot active" data-s="s-timer"></span>
+  <span class="dot"        data-s="s-hero"></span>
   <span class="dot"        data-s="s-map"></span>
   <span class="dot"        data-s="s-poem"></span>
 </nav>
@@ -640,29 +756,64 @@ function draw(){
 }
 
 // ══════════════════════════════════════════════════════
+//  TIMER
+// ══════════════════════════════════════════════════════
+const START = new Date('2024-12-01T00:00:00');
+const tDays  = document.getElementById('t-days');
+const tHours = document.getElementById('t-hours');
+const tMins  = document.getElementById('t-mins');
+const tSecs  = document.getElementById('t-secs');
+let lastSec  = -1;
+
+function updateTimer() {
+  const diff  = Date.now() - START.getTime();
+  const total = Math.floor(diff / 1000);
+  const s = total % 60;
+  const m = Math.floor(total / 60) % 60;
+  const h = Math.floor(total / 3600) % 24;
+  const d = Math.floor(total / 86400);
+  tDays.textContent  = String(d).padStart(3,'0');
+  tHours.textContent = String(h).padStart(2,'0');
+  tMins.textContent  = String(m).padStart(2,'0');
+  tSecs.textContent  = String(s).padStart(2,'0');
+  if(s !== lastSec) {
+    tSecs.classList.remove('sec-tick');
+    void tSecs.offsetWidth;
+    tSecs.classList.add('sec-tick');
+    lastSec = s;
+  }
+}
+setInterval(updateTimer, 250);
+updateTimer();
+
+// ══════════════════════════════════════════════════════
 //  SCROLL & UI
 // ══════════════════════════════════════════════════════
 const cardEl     = document.getElementById('card');
 const hintEl     = document.getElementById('scrollHint');
 const mapCaption = document.getElementById('mapCaption');
 const dots       = document.querySelectorAll('.dot');
-const sections   = ['s-hero','s-map','s-poem'].map(id=>document.getElementById(id));
+const sections   = ['s-timer','s-hero','s-map','s-poem'].map(id=>document.getElementById(id));
 
 window.addEventListener('scroll',()=>{
   const sy=window.scrollY,vh=window.innerHeight;
 
-  // hero card fade
-  const p=Math.min(sy/(vh*.55),1);
+  // timer hint fade
+  hintEl.style.opacity = Math.max(0,(1 - sy/(vh*.4))) * .45;
+
+  // hero card fade (relative to its section)
+  const heroTop = document.getElementById('s-hero').offsetTop;
+  const p = Math.max(0, Math.min((sy - heroTop)/(vh*.55), 1));
   cardEl.style.opacity   = 1-p;
   cardEl.style.transform = `translateY(${-p*28}px) scale(${1-p*.03})`;
-  hintEl.style.opacity   = (1-p)*.45;
 
   // map caption
-  mapCaption.classList.toggle('visible',sy>vh*.65&&sy<vh*1.8);
+  const mapTop = document.getElementById('s-map').offsetTop;
+  mapCaption.classList.toggle('visible', sy > mapTop + vh*.15 && sy < mapTop + vh*.85);
 
   // active dot
-  const mid=sy+vh*.45;
-  let active=0;
+  const mid = sy + vh*.45;
+  let active = 0;
   sections.forEach((s,i)=>{ if(s.offsetTop<=mid) active=i; });
   dots.forEach((d,i)=>d.classList.toggle('active',i===active));
 });
