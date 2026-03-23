@@ -66,7 +66,7 @@
       color: var(--gold);
       text-transform: uppercase;
       margin-bottom: 1.7rem;
-      opacity: 0.85;
+      opacity: 1;
     }
 
     h1 {
@@ -102,7 +102,7 @@
       animation: hintIn 1s ease 2.2s both;
     }
 
-    @keyframes hintIn { from { opacity: 0; } to { opacity: 0.45; } }
+    @keyframes hintIn { from { opacity: 0; } to { opacity: 0.7; } }
 
     .scroll-hint::after {
       content: '';
@@ -145,7 +145,7 @@
     .map-caption .tagline {
       font-family: 'Dancing Script', cursive;
       font-size: 1.4rem;
-      color: rgba(240, 232, 216, 0.48);
+      color: rgba(240, 232, 216, 0.78);
     }
 
     /* ── Poem section ────────────────────────────────── */
@@ -190,7 +190,7 @@
       opacity: 0;
       transition: width 1.2s ease 0.3s, opacity 1.2s ease 0.3s;
     }
-    .poem-rule.in { opacity: 0.28; width: 56px; }
+    .poem-rule.in { opacity: 0.55; width: 56px; }
 
     /* stanzas */
     .poem-stanza {
@@ -224,7 +224,7 @@
       opacity: 0;
       transition: opacity 1.4s ease;
     }
-    .poem-end.in { opacity: 0.35; }
+    .poem-end.in { opacity: 0.65; }
 
     /* ── Dot nav ─────────────────────────────────────── */
     .dot-nav {
@@ -342,7 +342,7 @@
       letter-spacing: 0.38em;
       color: var(--gold);
       text-transform: uppercase;
-      opacity: 0.7;
+      opacity: 0.95;
     }
 
     .mem-grid {
@@ -411,7 +411,7 @@
       letter-spacing: 0.38em;
       color: var(--gold);
       text-transform: uppercase;
-      opacity: 0.75;
+      opacity: 1;
       display: block;
       margin-bottom: 0.6rem;
     }
@@ -428,7 +428,7 @@
     .mem-text {
       font-size: 0.92rem;
       line-height: 1.8;
-      color: rgba(240,232,216,0.65);
+      color: rgba(240,232,216,0.82);
       font-style: italic;
       font-weight: 300;
     }
@@ -499,18 +499,18 @@
     }
 
     .timer-unit-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.42em;
+      font-size: 0.72rem;
+      letter-spacing: 0.38em;
       color: var(--gold);
       text-transform: uppercase;
-      opacity: 0.6;
+      opacity: 0.9;
     }
 
     .timer-sub {
       margin-top: 3rem;
       font-size: 0.68rem;
       letter-spacing: 0.28em;
-      color: rgba(240,232,216,0.22);
+      color: rgba(240,232,216,0.55);
       font-style: italic;
       opacity: 0;
       animation: cardRise 1s ease 1.4s both;
@@ -572,7 +572,7 @@
         font-size: clamp(2.6rem, 13vw, 3.5rem);
         min-width: unset;
       }
-      .timer-unit-label { font-size: 0.56rem; letter-spacing: 0.32em; }
+      .timer-unit-label { font-size: 0.65rem; letter-spacing: 0.28em; opacity: 0.9; }
       .timer-sub { margin-top: 2rem; font-size: 0.62rem; }
 
       /* ── Hero card ── */
@@ -713,68 +713,68 @@
   </div>
 
   <div class="mem-grid" id="memGrid">
-
-    <!-- ╔══════════════════════════════════════╗
-         ║  Karte bearbeiten:                   ║
-         ║  - mem-date  → Datum des Moments     ║
-         ║  - mem-title → Kurzer Titel          ║
-         ║  - mem-text  → Beschreibung          ║
-         ║  - Foto: <img src="datei.jpg">       ║
-         ║    statt mem-photo-placeholder       ║
-         ╚══════════════════════════════════════╝ -->
-
+    <!-- MEMORIES_START -->
     <div class="mem-card">
       <div class="mem-photo">
-        <div class="mem-photo-placeholder">
-          <span>✦</span>foto hinzufügen
-        </div>
+        <img src="memories/Betze.jpeg" alt="Betze">
       </div>
       <div class="mem-body">
-        <span class="mem-date">1. Dezember 2024</span>
-        <h3 class="mem-title">Der Anfang von allem</h3>
-        <p class="mem-text">Der Abend, an dem alles begann — unter genau diesen Sternen.</p>
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Betze</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
-
     <div class="mem-card">
       <div class="mem-photo">
-        <div class="mem-photo-placeholder">
-          <span>✦</span>foto hinzufügen
-        </div>
+        <img src="memories/Muenchen.jpg" alt="Muenchen">
       </div>
       <div class="mem-body">
-        <span class="mem-date">Erinnerung 2</span>
-        <h3 class="mem-title">Titel hier</h3>
-        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Muenchen</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
-
     <div class="mem-card">
       <div class="mem-photo">
-        <div class="mem-photo-placeholder">
-          <span>✦</span>foto hinzufügen
-        </div>
+        <img src="memories/Wurstmarkt.jpg" alt="Wurstmarkt">
       </div>
       <div class="mem-body">
-        <span class="mem-date">Erinnerung 3</span>
-        <h3 class="mem-title">Titel hier</h3>
-        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Wurstmarkt</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
-
     <div class="mem-card">
       <div class="mem-photo">
-        <div class="mem-photo-placeholder">
-          <span>✦</span>foto hinzufügen
-        </div>
+        <img src="memories/Lichtenstein.jpg" alt="Lichtenstein">
       </div>
       <div class="mem-body">
-        <span class="mem-date">Erinnerung 4</span>
-        <h3 class="mem-title">Titel hier</h3>
-        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Lichtenstein</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
-
+    <div class="mem-card">
+      <div class="mem-photo">
+        <img src="memories/Portugal.JPG" alt="Portugal">
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Portugal</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-photo">
+        <img src="memories/Burg.JPG" alt="Burg">
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">März 2026</span>
+        <h3 class="mem-title">Burg</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
+      </div>
+    </div>
+    <!-- MEMORIES_END -->
   </div>
 </div><!-- #view-memories -->
 
@@ -1088,14 +1088,14 @@ function draw(){
   for(const[id,lbl]of CON_LABELS){
     const s=byId[id];if(!s||s.alt<5)continue;
     const f=Math.min(s.alt/20,1);
-    ctx.fillStyle=`rgba(212,175,122,${.33*f})`;
+    ctx.fillStyle=`rgba(212,175,122,${.58*f})`;
     ctx.fillText(lbl,s.x,s.y-s.r_px-13);
   }
 
   // horizon ring + compass
   ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
   ctx.strokeStyle='rgba(212,175,122,.07)';ctx.lineWidth=1;ctx.stroke();
-  ctx.font="12px 'Cormorant Garamond',serif";ctx.fillStyle='rgba(212,175,122,.35)';
+  ctx.font="12px 'Cormorant Garamond',serif";ctx.fillStyle='rgba(212,175,122,.62)';
   for(const[lbl,az]of[['N',0],['O',90],['S',180],['W',270]]){
     const ar=d2r(az);
     ctx.fillText(lbl,cx+(R+22)*Math.sin(ar),cy-(R+22)*Math.cos(ar));
