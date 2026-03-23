@@ -406,15 +406,29 @@
 
     .mem-body { padding: 1.3rem 1.4rem 1.5rem; }
 
+    .mem-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+    }
+
     .mem-date {
       font-size: 0.65rem;
-      letter-spacing: 0.38em;
+      letter-spacing: 0.35em;
       color: var(--gold);
       text-transform: uppercase;
       opacity: 1;
-      display: block;
-      margin-bottom: 0.6rem;
     }
+
+    .mem-location {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(240,232,216,0.48);
+    }
+
+    .mem-location::before { content: '· '; color: rgba(212,175,122,0.35); }
 
     .mem-title {
       font-family: 'Dancing Script', cursive;
@@ -719,28 +733,8 @@
         <img src="memories/Betze.jpeg" alt="Betze">
       </div>
       <div class="mem-body">
-        <span class="mem-date">März 2026</span>
+        <div class="mem-meta"><span class="mem-date">14. Februar 2026</span></div>
         <h3 class="mem-title">Betze</h3>
-        <p class="mem-text">Erinnerung hinzufügen…</p>
-      </div>
-    </div>
-    <div class="mem-card">
-      <div class="mem-photo">
-        <img src="memories/Burg.JPG" alt="Burg">
-      </div>
-      <div class="mem-body">
-        <span class="mem-date">März 2026</span>
-        <h3 class="mem-title">Burg</h3>
-        <p class="mem-text">Erinnerung hinzufügen…</p>
-      </div>
-    </div>
-    <div class="mem-card">
-      <div class="mem-photo">
-        <img src="memories/Lichtenstein.jpg" alt="Lichtenstein">
-      </div>
-      <div class="mem-body">
-        <span class="mem-date">März 2026</span>
-        <h3 class="mem-title">Lichtenstein</h3>
         <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
@@ -749,18 +743,8 @@
         <img src="memories/Muenchen.jpg" alt="Muenchen">
       </div>
       <div class="mem-body">
-        <span class="mem-date">März 2026</span>
+        <div class="mem-meta"><span class="mem-date">25. Januar 2026</span></div>
         <h3 class="mem-title">Muenchen</h3>
-        <p class="mem-text">Erinnerung hinzufügen…</p>
-      </div>
-    </div>
-    <div class="mem-card">
-      <div class="mem-photo">
-        <img src="memories/Portugal.JPG" alt="Portugal">
-      </div>
-      <div class="mem-body">
-        <span class="mem-date">März 2026</span>
-        <h3 class="mem-title">Portugal</h3>
         <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
@@ -769,8 +753,39 @@
         <img src="memories/Wurstmarkt.jpg" alt="Wurstmarkt">
       </div>
       <div class="mem-body">
-        <span class="mem-date">März 2026</span>
+        <div class="mem-meta"><span class="mem-date">28. September 2025</span></div>
         <h3 class="mem-title">Wurstmarkt</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-photo">
+        <img src="memories/Lichtenstein.jpg" alt="Lichtenstein">
+      </div>
+      <div class="mem-body">
+        <div class="mem-meta"><span class="mem-date">25. August 2025</span></div>
+        <h3 class="mem-title">Lichtenstein</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-photo">
+        <img src="memories/Portugal.JPG" alt="Portugal">
+      </div>
+      <div class="mem-body">
+        <div class="mem-meta"><span class="mem-date">2. Juni 2025</span>
+        <span class="mem-location">Lisboa, Portugal</span></div>
+        <h3 class="mem-title">Portugal</h3>
+        <p class="mem-text">Erinnerung hinzufügen…</p>
+      </div>
+    </div>
+    <div class="mem-card">
+      <div class="mem-photo">
+        <img src="memories/Burg.JPG" alt="Burg">
+      </div>
+      <div class="mem-body">
+        <div class="mem-meta"><span class="mem-date">2. Mai 2025</span></div>
+        <h3 class="mem-title">Burg</h3>
         <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>
