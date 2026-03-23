@@ -148,84 +148,6 @@
       color: rgba(240, 232, 216, 0.78);
     }
 
-    /* ── Poem section ────────────────────────────────── */
-    #s-poem {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 7rem 2rem;
-      background: linear-gradient(to bottom,
-        transparent      0%,
-        rgba(4,4,16,.80) 12%,
-        rgba(4,4,16,.84) 88%,
-        transparent      100%);
-    }
-
-    .poem-wrap {
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-    }
-
-    /* poem title */
-    .poem-title {
-      font-family: 'Dancing Script', cursive;
-      font-size: clamp(1.6rem, 3vw, 2rem);
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 1.1s ease, transform 1.1s ease;
-    }
-    .poem-title.in { opacity: 0.90; transform: none; }
-
-    /* rule */
-    .poem-rule {
-      width: 0;
-      height: 1px;
-      background: var(--gold);
-      margin: 0 auto 3rem;
-      opacity: 0;
-      transition: width 1.2s ease 0.3s, opacity 1.2s ease 0.3s;
-    }
-    .poem-rule.in { opacity: 0.55; width: 56px; }
-
-    /* stanzas */
-    .poem-stanza {
-      margin-bottom: 2.8rem;
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    .poem-stanza.in { opacity: 1; transform: none; }
-
-    .poem-stanza p {
-      font-size: clamp(1rem, 1.8vw, 1.12rem);
-      line-height: 2.15;
-      color: rgba(240, 232, 216, 0.85);
-      font-style: italic;
-      font-weight: 300;
-    }
-
-    .poem-stanza p.strong {
-      font-style: normal;
-      font-weight: 400;
-      color: var(--text);
-      font-size: clamp(1.05rem, 2vw, 1.18rem);
-    }
-
-    /* closing mark */
-    .poem-end {
-      margin-top: 0.5rem;
-      font-size: 1.1rem;
-      color: var(--gold);
-      opacity: 0;
-      transition: opacity 1.4s ease;
-    }
-    .poem-end.in { opacity: 0.65; }
-
     /* ── Dot nav ─────────────────────────────────────── */
     .dot-nav {
       position: fixed;
@@ -594,13 +516,6 @@
       h1 { font-size: clamp(1.9rem, 8vw, 2.8rem); margin-bottom: 1rem; }
       .intro-text { font-size: 0.96rem; line-height: 1.85; }
 
-      /* ── Poem ── */
-      #s-poem { padding: 5rem 1.4rem 8rem; }
-      .poem-title { font-size: clamp(1.3rem, 5.5vw, 1.7rem); }
-      .poem-stanza { margin-bottom: 2rem; }
-      .poem-stanza p { font-size: 0.98rem; line-height: 2; }
-      .poem-stanza p.strong { font-size: 1.02rem; }
-
       /* ── Map caption ── */
       .map-caption .loc { font-size: 0.6rem; letter-spacing: 0.28em; }
       .map-caption .tagline { font-size: 1.15rem; }
@@ -659,7 +574,7 @@
 <!-- ── 1 · Hero ───────────────────────────────────── -->
 <section id="s-hero">
   <div class="card" id="card">
-    <h1>Für dich,<br>unter diesen Sternen</h1>
+    <h1>Sophie und Daniel<br>unter diesen Sternen</h1>
     <p class="intro-text">
       Dieses Sternbild hat in der Nacht geleuchtet,<br>
       in der unsere Geschichte begann.<br>
@@ -678,46 +593,6 @@
   </div>
 </section>
 
-<!-- ── 3 · Poem ──────────────────────────────────── -->
-<section id="s-poem">
-  <div class="poem-wrap">
-
-    <h2 class="poem-title" id="poemTitle">Für dich, unter diesen Sternen</h2>
-    <div class="poem-rule"  id="poemRule"></div>
-
-    <div class="poem-stanza">
-      <p>Zwischen all diesen Sternen</p>
-      <p>war dein Lachen das hellste Licht —</p>
-      <p>nicht weil der Himmel es so wollte,</p>
-      <p>sondern weil du es bist.</p>
-    </div>
-
-    <div class="poem-stanza">
-      <p>Es gibt Momente, die sich nicht erklären —</p>
-      <p>die man nur atmen kann.</p>
-      <p>Wenn die Stille zwischen uns</p>
-      <p>mehr sagt als Worte.</p>
-    </div>
-
-    <div class="poem-stanza">
-      <p>Manche Sterne sieht man erst,</p>
-      <p>wenn es wirklich dunkel ist.</p>
-      <p class="strong">Du warst schon immer da —</p>
-      <p>ich musste nur aufschauen.</p>
-    </div>
-
-    <div class="poem-stanza">
-      <p>Diese Sterne über uns —</p>
-      <p>sie haben uns gesehen, diesen Abend.</p>
-      <p>Ich werde sie immer erkennen</p>
-      <p>als den Himmel,</p>
-      <p class="strong">unter dem ich dich liebe.</p>
-    </div>
-
-    <p class="poem-end" id="poemEnd">✦</p>
-
-  </div>
-</section>
 
 </div><!-- #view-main -->
 
@@ -812,7 +687,6 @@
   <span class="dot active" data-s="s-timer"></span>
   <span class="dot"        data-s="s-hero"></span>
   <span class="dot"        data-s="s-map"></span>
-  <span class="dot"        data-s="s-poem"></span>
 </nav>
 
 <script>
@@ -1162,7 +1036,7 @@ const cardEl     = document.getElementById('card');
 const hintEl     = document.getElementById('scrollHint');
 const mapCaption = document.getElementById('mapCaption');
 const dots       = document.querySelectorAll('.dot');
-const sections   = ['s-timer','s-hero','s-map','s-poem'].map(id=>document.getElementById(id));
+const sections   = ['s-timer','s-hero','s-map'].map(id=>document.getElementById(id));
 
 window.addEventListener('scroll',()=>{
   const sy=window.scrollY,vh=window.innerHeight;
@@ -1193,29 +1067,6 @@ dots.forEach(d=>{
   });
 });
 
-// ── Poem reveal ───────────────────────────────────────
-const poemTitle  = document.getElementById('poemTitle');
-const poemRule   = document.getElementById('poemRule');
-const poemEnd    = document.getElementById('poemEnd');
-const stanzas    = document.querySelectorAll('.poem-stanza');
-
-function observe(el,cb,threshold=.2){
-  const o=new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting){cb();o.disconnect();}
-  },{threshold});
-  o.observe(el);
-}
-
-observe(poemTitle,()=>{
-  poemTitle.classList.add('in');
-  setTimeout(()=>poemRule.classList.add('in'),200);
-},.1);
-
-stanzas.forEach((s,i)=>{
-  observe(s,()=>setTimeout(()=>s.classList.add('in'),i*160),.2);
-});
-
-observe(poemEnd,()=>poemEnd.classList.add('in'),.5);
 
 // ══════════════════════════════════════════════════════
 //  TAB SWITCHING
