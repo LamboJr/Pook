@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Für dich ♥</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet" />
   <style>
@@ -255,6 +255,184 @@
       transform: scale(1.35);
     }
 
+    /* ── Tab bar ─────────────────────────────────────── */
+    .tab-bar {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      gap: 0;
+      background: rgba(6, 6, 20, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(212,175,122,0.18);
+      border-radius: 50px;
+      padding: 5px;
+      opacity: 0;
+      animation: hintIn 1s ease 2.5s both;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.4rem;
+      border: none;
+      background: transparent;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(240,232,216,0.45);
+      transition: color 0.3s ease, background 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn .tab-icon { font-size: 0.8rem; }
+
+    .tab-btn.active {
+      background: rgba(212,175,122,0.14);
+      color: var(--gold);
+    }
+
+    .tab-btn:hover:not(.active) { color: rgba(240,232,216,0.75); }
+
+    /* ── Views ───────────────────────────────────────── */
+    #view-main {
+      transition: opacity 0.45s ease;
+    }
+    #view-main.view-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ── Memories view ───────────────────────────────── */
+    #view-memories {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s ease;
+      padding: 4rem 1.5rem 7rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    #view-memories.view-active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mem-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .mem-header h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+    }
+    .mem-header p {
+      font-size: 0.72rem;
+      letter-spacing: 0.38em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .mem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .mem-card {
+      background: rgba(6,6,20,0.68);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(212,175,122,0.12);
+      border-left: 2px solid rgba(212,175,122,0.4);
+      border-radius: 3px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease,
+                  border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .mem-card.in {
+      opacity: 1;
+      transform: none;
+    }
+    .mem-card:hover {
+      border-color: rgba(212,175,122,0.35);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .mem-photo {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: rgba(12,12,30,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mem-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .mem-card:hover .mem-photo img { transform: scale(1.04); }
+
+    .mem-photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(212,175,122,0.2);
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .mem-photo-placeholder span { font-size: 1.8rem; opacity: 0.4; }
+
+    .mem-body { padding: 1.3rem 1.4rem 1.5rem; }
+
+    .mem-date {
+      font-size: 0.65rem;
+      letter-spacing: 0.38em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.75;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .mem-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .mem-text {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: rgba(240,232,216,0.65);
+      font-style: italic;
+      font-weight: 300;
+    }
+
     /* ── Timer ───────────────────────────────────────── */
     #s-timer {
       height: 100vh;
@@ -343,11 +521,98 @@
       100% { opacity: 1;    transform: translateY(0);    }
     }
     .sec-tick { animation: secPop 0.28s ease; }
+
+    /* ══════════════════════════════════════════════════
+       MOBILE — iPhone
+    ══════════════════════════════════════════════════ */
+
+    /* dvh: fixes iOS Safari 100vh including address bar */
+    #s-timer, #s-hero, #s-map {
+      height: 100svh;
+    }
+
+    /* Safe-area: tab bar above home indicator */
+    .tab-bar {
+      bottom: max(1.2rem, env(safe-area-inset-bottom));
+    }
+
+    /* Memories: pad below tab bar + home indicator */
+    #view-memories {
+      padding-bottom: max(7rem, calc(env(safe-area-inset-bottom) + 6.5rem));
+    }
+
+    /* Scroll hint above tab bar */
+    .scroll-hint {
+      bottom: max(5rem, calc(env(safe-area-inset-bottom) + 4.5rem));
+    }
+
+    /* Map caption: stay above tab bar */
+    #s-map { padding-bottom: max(5.5rem, calc(env(safe-area-inset-bottom) + 5rem)); }
+
+    /* Prevent iOS text-size-adjust & tap flash */
+    html { -webkit-text-size-adjust: 100%; }
+    * { -webkit-tap-highlight-color: transparent; }
+
+    @media (max-width: 600px) {
+
+      /* ── Timer: 2×2 grid, hide separators ── */
+      .timer-heading {
+        font-size: clamp(2.4rem, 11vw, 3.2rem);
+        margin-bottom: 0.7rem;
+      }
+      .timer-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.8rem 1.5rem;
+        width: 90vw;
+        max-width: 320px;
+      }
+      .timer-sep { display: none; }
+      .timer-num {
+        font-size: clamp(2.6rem, 13vw, 3.5rem);
+        min-width: unset;
+      }
+      .timer-unit-label { font-size: 0.56rem; letter-spacing: 0.32em; }
+      .timer-sub { margin-top: 2rem; font-size: 0.62rem; }
+
+      /* ── Hero card ── */
+      .card { padding: 2rem 1.5rem; }
+      h1 { font-size: clamp(1.9rem, 8vw, 2.8rem); margin-bottom: 1rem; }
+      .intro-text { font-size: 0.96rem; line-height: 1.85; }
+
+      /* ── Poem ── */
+      #s-poem { padding: 5rem 1.4rem 8rem; }
+      .poem-title { font-size: clamp(1.3rem, 5.5vw, 1.7rem); }
+      .poem-stanza { margin-bottom: 2rem; }
+      .poem-stanza p { font-size: 0.98rem; line-height: 2; }
+      .poem-stanza p.strong { font-size: 1.02rem; }
+
+      /* ── Map caption ── */
+      .map-caption .loc { font-size: 0.6rem; letter-spacing: 0.28em; }
+      .map-caption .tagline { font-size: 1.15rem; }
+
+      /* ── Dot nav: hidden (tab bar reicht) ── */
+      .dot-nav { display: none; }
+
+      /* ── Tab bar ── */
+      .tab-btn { padding: 0.5rem 1rem; font-size: 0.7rem; letter-spacing: 0.16em; }
+
+      /* ── Memories ── */
+      #view-memories { padding: 3rem 1rem max(7rem, calc(env(safe-area-inset-bottom) + 6.5rem)); }
+      .mem-header { margin-bottom: 2rem; }
+      .mem-header h2 { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+      .mem-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .mem-body { padding: 1rem 1.1rem 1.2rem; }
+      .mem-title { font-size: 1.2rem; }
+      .mem-text { font-size: 0.88rem; }
+    }
   </style>
 </head>
 <body>
 
 <canvas id="starCanvas"></canvas>
+
+<div id="view-main">
 
 <!-- ── 0 · Timer ──────────────────────────────────── -->
 <section id="s-timer">
@@ -437,6 +702,93 @@
 
   </div>
 </section>
+
+</div><!-- #view-main -->
+
+<!-- ── Memories view ─────────────────────────────── -->
+<div id="view-memories">
+  <div class="mem-header">
+    <h2>Unsere Momente</h2>
+    <p>Erinnerungen · die bleiben</p>
+  </div>
+
+  <div class="mem-grid" id="memGrid">
+
+    <!-- ╔══════════════════════════════════════╗
+         ║  Karte bearbeiten:                   ║
+         ║  - mem-date  → Datum des Moments     ║
+         ║  - mem-title → Kurzer Titel          ║
+         ║  - mem-text  → Beschreibung          ║
+         ║  - Foto: <img src="datei.jpg">       ║
+         ║    statt mem-photo-placeholder       ║
+         ╚══════════════════════════════════════╝ -->
+
+    <div class="mem-card">
+      <div class="mem-photo">
+        <div class="mem-photo-placeholder">
+          <span>✦</span>foto hinzufügen
+        </div>
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">1. Dezember 2024</span>
+        <h3 class="mem-title">Der Anfang von allem</h3>
+        <p class="mem-text">Der Abend, an dem alles begann — unter genau diesen Sternen.</p>
+      </div>
+    </div>
+
+    <div class="mem-card">
+      <div class="mem-photo">
+        <div class="mem-photo-placeholder">
+          <span>✦</span>foto hinzufügen
+        </div>
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">Erinnerung 2</span>
+        <h3 class="mem-title">Titel hier</h3>
+        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+      </div>
+    </div>
+
+    <div class="mem-card">
+      <div class="mem-photo">
+        <div class="mem-photo-placeholder">
+          <span>✦</span>foto hinzufügen
+        </div>
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">Erinnerung 3</span>
+        <h3 class="mem-title">Titel hier</h3>
+        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+      </div>
+    </div>
+
+    <div class="mem-card">
+      <div class="mem-photo">
+        <div class="mem-photo-placeholder">
+          <span>✦</span>foto hinzufügen
+        </div>
+      </div>
+      <div class="mem-body">
+        <span class="mem-date">Erinnerung 4</span>
+        <h3 class="mem-title">Titel hier</h3>
+        <p class="mem-text">Beschreibung dieses besonderen Moments...</p>
+      </div>
+    </div>
+
+  </div>
+</div><!-- #view-memories -->
+
+<!-- ── Tab bar ────────────────────────────────────── -->
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-view="main">
+    <span class="tab-icon">✦</span>
+    <span>Himmel</span>
+  </button>
+  <button class="tab-btn" data-view="memories">
+    <span class="tab-icon">♡</span>
+    <span>Erinnerungen</span>
+  </button>
+</div>
 
 <!-- ── Dot nav ────────────────────────────────────── -->
 <nav class="dot-nav" id="dotNav">
@@ -847,6 +1199,47 @@ stanzas.forEach((s,i)=>{
 });
 
 observe(poemEnd,()=>poemEnd.classList.add('in'),.5);
+
+// ══════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ══════════════════════════════════════════════════════
+const tabBtns    = document.querySelectorAll('.tab-btn');
+const viewMain   = document.getElementById('view-main');
+const viewMem    = document.getElementById('view-memories');
+const dotNav     = document.getElementById('dotNav');
+let   activeView = 'main';
+
+// Animate memory cards in when memories view opens
+const memCards = document.querySelectorAll('.mem-card');
+function animateMemCards() {
+  memCards.forEach((c,i) => {
+    c.classList.remove('in');
+    setTimeout(() => c.classList.add('in'), 80 + i * 120);
+  });
+}
+
+function switchView(to) {
+  if (to === activeView) return;
+  activeView = to;
+
+  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.view === to));
+
+  if (to === 'memories') {
+    viewMain.classList.add('view-hidden');
+    dotNav.style.opacity = '0';
+    dotNav.style.pointerEvents = 'none';
+    viewMem.classList.add('view-active');
+    viewMem.scrollTop = 0;
+    setTimeout(animateMemCards, 200);
+  } else {
+    viewMem.classList.remove('view-active');
+    dotNav.style.opacity = '';
+    dotNav.style.pointerEvents = '';
+    setTimeout(() => viewMain.classList.remove('view-hidden'), 50);
+  }
+}
+
+tabBtns.forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
 
 // ══════════════════════════════════════════════════════
 window.addEventListener('resize',resize);
