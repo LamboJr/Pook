@@ -3,7 +3,8 @@ name: Update Memories
 on:
   push:
     paths:
-      - 'memories/**'   # läuft nur wenn Bilder geändert werden
+      - 'memories/**'
+      - 'poems/**'
 
 jobs:
   generate:

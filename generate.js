@@ -9,6 +9,7 @@ const path = require('path');
 const https = require('https');
 
 const MEMORIES_DIR = path.join(__dirname, 'memories');
+const POEMS_DIR    = path.join(__dirname, 'poems');
 const INDEX_FILE   = path.join(__dirname, 'index.html');
 const IMG_EXTS     = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
 
@@ -139,11 +140,15 @@ function fetchLocation(lat, lon) {
   });
 }
 
-// ── Bilder einlesen ───────────────────────────────────────
+// ── Einlesen ──────────────────────────────────────────────
 
 if (!fs.existsSync(MEMORIES_DIR)) {
   fs.mkdirSync(MEMORIES_DIR);
   console.log('📁  memories/ Ordner erstellt.');
+}
+if (!fs.existsSync(POEMS_DIR)) {
+  fs.mkdirSync(POEMS_DIR);
+  console.log('📁  poems/ Ordner erstellt.');
 }
 
 const images = fs.readdirSync(MEMORIES_DIR)
@@ -154,29 +159,36 @@ const images = fs.readdirSync(MEMORIES_DIR)
     return ta - tb;
   });
 
-if (images.length === 0) {
-  console.log('⚠️  Keine Bilder in memories/ gefunden.');
-  process.exit(0);
-}
+const poemFiles = fs.readdirSync(POEMS_DIR)
+  .filter(f => path.extname(f).toLowerCase() === '.txt')
+  .sort((a, b) => {
+    const ta = fs.statSync(path.join(POEMS_DIR, a)).mtime;
+    const tb = fs.statSync(path.join(POEMS_DIR, b)).mtime;
+    return ta - tb;
+  });
 
 // ── HTML generieren (async für Geocoding) ─────────────────
 
 async function main() {
-  const cards = await Promise.all(images.map(async img => {
-    const fp    = path.join(MEMORIES_DIR, img);
-    const title = toTitle(img);
-    const date  = toDate(fp);
+  let html = fs.readFileSync(INDEX_FILE, 'utf8');
 
-    let loc = null;
-    try {
-      const exif = parseExif(fs.readFileSync(fp));
-      if (exif.lat !== null && exif.lon !== null) {
-        loc = await fetchLocation(exif.lat, exif.lon);
-      }
-    } catch {}
+  // ── Memory cards ──────────────────────────────────────
+  if (images.length > 0) {
+    const cards = await Promise.all(images.map(async img => {
+      const fp    = path.join(MEMORIES_DIR, img);
+      const title = toTitle(img);
+      const date  = toDate(fp);
 
-    const locHTML = loc ? `\n        <span class="mem-location">${loc}</span>` : '';
-    return `    <div class="mem-card">
+      let loc = null;
+      try {
+        const exif = parseExif(fs.readFileSync(fp));
+        if (exif.lat !== null && exif.lon !== null) {
+          loc = await fetchLocation(exif.lat, exif.lon);
+        }
+      } catch {}
+
+      const locHTML = loc ? `\n        <span class="mem-location">${loc}</span>` : '';
+      return `    <div class="mem-card">
       <div class="mem-photo">
         <img src="memories/${img}" alt="${title}">
       </div>
@@ -186,27 +198,50 @@ async function main() {
         <p class="mem-text">Erinnerung hinzufügen…</p>
       </div>
     </div>`;
-  }));
+    }));
 
-  // ── In index.html einfügen ────────────────────────────────
-
-  let html = fs.readFileSync(INDEX_FILE, 'utf8');
-
-  const START = '<!-- MEMORIES_START -->';
-  const END   = '<!-- MEMORIES_END -->';
-
-  if (!html.includes(START) || !html.includes(END)) {
-    console.error('❌  Marker nicht in index.html gefunden.');
-    process.exit(1);
+    const MS = '<!-- MEMORIES_START -->', ME = '<!-- MEMORIES_END -->';
+    if (!html.includes(MS) || !html.includes(ME)) {
+      console.error('❌  MEMORIES-Marker nicht in index.html gefunden.');
+      process.exit(1);
+    }
+    html = html.replace(new RegExp(`${MS}[\\s\\S]*?${ME}`),
+      `${MS}\n${cards.join('\n')}\n    ${ME}`);
+    console.log(`✅  ${images.length} Bild(er) eingebunden:\n   ${images.join('\n   ')}`);
   }
 
-  html = html.replace(
-    new RegExp(`${START}[\\s\\S]*?${END}`),
-    `${START}\n${cards.join('\n')}\n    ${END}`
-  );
+  // ── Poem cards ────────────────────────────────────────
+  if (poemFiles.length > 0) {
+    const poemCards = poemFiles.map(file => {
+      const title = toTitle(file);
+      const raw   = fs.readFileSync(path.join(POEMS_DIR, file), 'utf8');
+      // Split into stanzas by blank lines
+      const stanzas = raw.trim().split(/\n\s*\n/).map(stanza =>
+        stanza.trim().split('\n')
+          .map(line => `      <p>${line.trim()}</p>`)
+          .join('\n')
+      );
+      const stanzaHTML = stanzas
+        .map(s => `    <div class="poem-card-stanza">\n${s}\n    </div>`)
+        .join('\n');
+      return `    <div class="poem-card">
+      <h3 class="poem-card-title">${title}</h3>
+      <div class="poem-card-rule"></div>
+${stanzaHTML}
+    </div>`;
+    });
+
+    const PS = '<!-- POEMS_START -->', PE = '<!-- POEMS_END -->';
+    if (!html.includes(PS) || !html.includes(PE)) {
+      console.error('❌  POEMS-Marker nicht in index.html gefunden.');
+      process.exit(1);
+    }
+    html = html.replace(new RegExp(`${PS}[\\s\\S]*?${PE}`),
+      `${PS}\n${poemCards.join('\n')}\n    ${PE}`);
+    console.log(`✅  ${poemFiles.length} Gedicht(e) eingebunden:\n   ${poemFiles.join('\n   ')}`);
+  }
 
   fs.writeFileSync(INDEX_FILE, html, 'utf8');
-  console.log(`✅  ${images.length} Bild(er) eingebunden:\n   ${images.join('\n   ')}`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
