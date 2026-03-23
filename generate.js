@@ -160,7 +160,7 @@ const images = fs.readdirSync(MEMORIES_DIR)
   });
 
 const poemFiles = fs.readdirSync(POEMS_DIR)
-  .filter(f => path.extname(f).toLowerCase() === '.txt')
+  .filter(f => !f.startsWith('.') && ['.txt', ''].includes(path.extname(f).toLowerCase()))
   .sort((a, b) => {
     const ta = fs.statSync(path.join(POEMS_DIR, a)).mtime;
     const tb = fs.statSync(path.join(POEMS_DIR, b)).mtime;
