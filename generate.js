@@ -19,9 +19,52 @@ function toTitle(filename) {
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 
+const MONTHS = ['Januar','Februar','März','April','Mai','Juni',
+                'Juli','August','September','Oktober','November','Dezember'];
+
 function toDate(filepath) {
+  // 1. Try EXIF DateTimeOriginal
+  try {
+    const data = fs.readFileSync(filepath);
+    let i = 2;
+    while (i < data.length - 4) {
+      const marker = data.readUInt16BE(i);
+      const length = data.readUInt16BE(i + 2);
+      if (marker === 0xFFE1 && data.slice(i+4, i+8).toString() === 'Exif') {
+        const tiff = data.slice(i + 10);
+        const be   = tiff.slice(0,2).toString() === 'MM';
+        const rd16 = o => be ? tiff.readUInt16BE(o) : tiff.readUInt16LE(o);
+        const rd32 = o => be ? tiff.readUInt32BE(o) : tiff.readUInt32LE(o);
+        const ifd  = rd32(4), cnt = rd16(ifd);
+        for (let j = 0; j < cnt; j++) {
+          const e   = ifd + 2 + j * 12;
+          const tag = rd16(e);
+          if (tag === 0x9003 || tag === 0x0132) {
+            const off = rd32(e + 8);
+            const ds  = tiff.slice(off, off + 19).toString();
+            const [y,m,d] = [+ds.slice(0,4), +ds.slice(5,7), +ds.slice(8,10)];
+            return `${d}. ${MONTHS[m-1]} ${y}`;
+          }
+        }
+      }
+      i += 2 + length;
+    }
+  } catch {}
+
+  // 2. macOS Spotlight fallback (mdls)
+  try {
+    const { execSync } = require('child_process');
+    const out   = execSync(`mdls -name kMDItemContentCreationDate "${filepath}"`, { encoding: 'utf8' });
+    const match = out.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+      const [,y,m,d] = match;
+      return `${+d}. ${MONTHS[+m-1]} ${+y}`;
+    }
+  } catch {}
+
+  // 3. File modification date
   const mtime = fs.statSync(filepath).mtime;
-  return mtime.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+  return `${mtime.getDate()}. ${MONTHS[mtime.getMonth()]} ${mtime.getFullYear()}`;
 }
 
 // ── Bilder einlesen ───────────────────────────────────────
